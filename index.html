@@ -1,28 +1,32 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <meta charset="utf-8">
     <title>Pomodoro</title>
     <link rel="stylesheet" href="../bootstrap.min.css">
     <link rel="stylesheet" href="main.css">
-  </head>
-  <body>
-    <div class="container col-md-8 col-lg-8 col-xs-12">
-      <div class="counter">
-        <div class="loader">
-          <div class="timer-control">
-            <button class="btn add btn-success" name="button">+</button>
-            <h1 class="timer">25:00</h1>
-            <button class="btn subtract btn-danger" name="button">-</button>
-            <div class="start-or-reset">
-              <div class="btn start btn-default">Start</div>
-              <div class="btn reset btn-default">Reset</div>
+</head>
+
+<body>
+    <div class="container col-md-12 col-lg-12 col-xs-12">
+        <div class="counter">
+            <div class="loader">
+              <h1 class="state">Session</h1>
+                <div class="timer-control">
+                    <button class="btn add btn-success" name="button">+</button>
+                    <h1 class="timer">25:00</h1>
+                    <button class="btn subtract btn-danger" name="button">-</button>
+                    <div class="start-or-reset">
+                        <div class="btn start btn-default">Start</div>
+                        <div class="btn reset btn-default">Reset</div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
     <script src="../jquery-3.1.1.min.js" charset="utf-8"></script>
     <script src="app.js" charset="utf-8"></script>
-  </body>
+</body>
+
 </html>
