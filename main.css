@@ -1,0 +1,60 @@
+body {
+  background:
+linear-gradient(135deg, #708090 22px, #d9ecff 22px, #d9ecff 24px, transparent 24px, transparent 67px, #d9ecff 67px, #d9ecff 69px, transparent 69px),
+linear-gradient(225deg, #708090 22px, #d9ecff 22px, #d9ecff 24px, transparent 24px, transparent 67px, #d9ecff 67px, #d9ecff 69px, transparent 69px)0 64px;
+background-color:#708090;
+background-size: 64px 128px
+}
+.container, .counter, .loader, .start-or-reset {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  min-height:300px;
+  min-width: 300px;
+}
+
+.counter {
+  margin-top:2%;
+  width: 100%;
+  height: 400px;
+}
+
+.loader {
+  flex-direction: column;
+  align-self: flex-start;
+  width: 100%;
+  height: 100%;
+  background:
+linear-gradient(45deg, #92baac 45px, transparent 45px)64px 64px,
+linear-gradient(45deg, #92baac 45px, transparent 45px,transparent 91px, #e1ebbd 91px, #e1ebbd 135px, transparent 135px),
+linear-gradient(-45deg, #92baac 23px, transparent 23px, transparent 68px,#92baac 68px,#92baac 113px,transparent 113px,transparent 158px,#92baac 158px);
+background-color:#e1ebbd;
+background-size: 128px 128px;
+}
+
+.timer-control {
+  width: 100%;
+  max-width: 300px;
+  position: fixed;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  background-color: rgba(133,134,235, 0.5);
+}
+
+.timer {
+  font-family: monospace;
+  color: white;
+  font-weight: bold;
+}
+
+.add, .subtract {
+  min-width: 60px;
+  font-size: 60px;
+}
+.start, .reset {
+  min-width: 150px;
+}
