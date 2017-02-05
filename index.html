@@ -10,21 +10,26 @@
 
 <body>
     <div class="container col-md-12 col-lg-12 col-xs-12">
-        <div class="counter">
-            <div class="loader">
-              <h1 class="state">Session</h1>
-                <div class="timer-control">
-                    <button class="btn add btn-success" name="button">+</button>
-                    <h1 class="timer">25:00</h1>
-                    <button class="btn subtract btn-danger" name="button">-</button>
-                    <div class="start-or-reset">
-                        <div class="btn start btn-default">Start</div>
-                        <div class="btn reset btn-default">Reset</div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
+    <!-- Templates -->
+    <script type="text/x-handlebars-template" id="timer-template">
+      <div class="counter">
+        <div class="loader {{class}}">
+          <h1 class="state">{{name}}</h1>
+          <div class="timer-control">
+            <button class="btn add btn-success" name="button">+</button>
+            <h1 class="timer">{{time}}:00</h1>
+            <button class="btn subtract btn-danger" name="button">-</button>
+            <div class="start-or-reset">
+              <div class="btn start btn-default">Start</div>
+              <div class="btn reset btn-default">Reset</div>
+            </div>
+          </div>
+          <audio src="http://onlineclock.net/audio/options/default.mp3"></audio>
+        </div>
+      </div>
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js" charset="utf-8"></script>
     <script src="../jquery-3.1.1.min.js" charset="utf-8"></script>
     <script src="app.js" charset="utf-8"></script>
 </body>

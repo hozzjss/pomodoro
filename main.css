@@ -9,6 +9,7 @@ background-size: 64px 128px
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .container {
@@ -17,9 +18,10 @@ background-size: 64px 128px
 }
 
 .counter {
-  margin-top:2%;
+  margin: 1%;
   width: 100%;
   height: 400px;
+  flex-basis:400px;
 }
 
 .loader {
@@ -39,7 +41,7 @@ background-size: 128px 128px;
   margin-top: 20%;
   width: 100%;
   max-width: 300px;
-  position: fixed;
+  position: absolute;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;

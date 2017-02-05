@@ -1,126 +1,131 @@
-// DOCS
-//
-// init(option)
-// inits the pomodoro and the break
-//
-// reset()
-// resets everything to it's initial state
-//
-// stop()
-// just stops everything
-//
-// startBreak()
-// starts the break timer
-//
-// addOrSub(option)
-// adds or subtracts minutes to the timer
-//
-// zeroPrefix(num)
-// minute or second is less than 10? prefix it with a 0
-//
-// animateLoader(percentage)
-// takes a percentage and assigns it to the width of the loader
-//
-// countDown()
-// takes the current time and takes one second out of it
-//
-// startCycle()
-// it then updates the ui with the correct remaining time
-// then assigns the loader a width of the percentage of time that is left
-// if it's the break it stops the whole process after it's done
-// if not it starts the break timer after the session is over
-//
-// NTS: too big a fn needs to be broken down into smaller chunks
 $(document).ready(function () {
   "use strict";
+  // timerMaker(timeLimit, loaderClass)
+  // takes an amount of minutes as a premises
+  // for countdown timer and a class for the view
+  // to be manipulated
+  const timerMaker = (timeLimit , loaderClass) => {
+  	let currentSec, minutes, seconds, timerInterv, isInit;
+    //
+    // init(option)
+    // inits the timer
+  	const init = (option) => {
+  		if (isInit) return false;
+  		currentSec = timeLimit * 60;
+  		minutes = timeLimit - 1;
+  		seconds = timeLimit * 60;
+  		isInit = true;
+  		$(`${loaderClass} .add, ${loaderClass} .subtract, ${loaderClass} .start`).addClass("disabled");
+  		timerInterv = setInterval(startCycle, 1000);
+  	};
+    //
+    // reset()
+    // resets everything to it's initial state
+  	const reset = () => {
+  		isInit = false;
+  		stop();
+  		animateLoader(1);
+  		$(`${loaderClass} .timer`).text(`${timeLimit}:00`);
+  		$(`${loaderClass} .add, ${loaderClass} .subtract, ${loaderClass} .start`).removeClass("disabled");
+  	};
+    //
+    // stop()
+    // stops counting down
+  	const stop = () => {
+  		clearInterval(timerInterv);
+  	};
+    //
+    // addOrSub(option)
+    // adds or subtracts minutes to the timer
+  	const addOrSub = option => {
+  		if (isInit || (timeLimit <= 1 && option == "sub")) return false;
+  		timeLimit = option == "add" ? timeLimit + 1 : timeLimit - 1;
+  		$(`${loaderClass} .timer`).text(`${zeroPrefix(timeLimit)}:00`)
+  	};
+    //
+    // zeroPrefix(num)
+    // number is less than 10? prefix it with a 0
+  	const zeroPrefix = num => {
+  		return num < 10 ? `0${num}` : num;
+  	};
+    //
+    // animateLoader(percentage)
+    // takes a percentage and assigns it to the width of the loader
+  	const animateLoader = (percentage) => {
+  		percentage = percentage ? percentage : currentSec / seconds;
+  		$(loaderClass).css("width", `${percentage*100}%`);
+  	};
+    //
+    // countDown()
+    // takes the current time and takes one second out of it
+  	const countDown = () => {
+  		currentSec -= 1;
+  		if (currentSec % 60 == 0 && minutes !== 0) minutes -= 1;
+  	}
+    //
+    // startCycle()
+    // updates the ui with the correct remaining time
+    // animates loader
+    // stops when time's up
+    // if not it starts the break timer after the session is over
+  	const startCycle = () => {
+  		countDown();
+  		$(`${loaderClass} .timer`)
+  		.text(`${zeroPrefix(minutes)}:${zeroPrefix(currentSec % 60)}`);
+  		animateLoader();
+  		if (currentSec <= 0) {
+  			stop();
+        $(`${loaderClass} audio`).trigger('play');
+        $(".loader-break .start").click();
+  		}
+  	};
+    // returns an API
+  	return  {
+  		init,
+  		addOrSub,
+  		reset
+  	};
+  };
+
+  // metadata about the timers if we were to add more in a future update
+  const timerMetas = [{"name": "Session", "class":"loader-session", "time": "25"},
+  {"name": "Break", "class":"loader-break", "time": "05"}];
+  let timerFuns = [];
+
   //
-  let timeLimit, currentSec, minutes, seconds, timerInterv, breakInit, isInit;
-
-  // effn fns
-  const init = (option) => {
-    if (isInit) return false;
-    if (option == "break") {
-      timeLimit = $(".break").length ?
-      $("break").text().slice(0, -3) : 5;
-    } else {
-      timeLimit = +($(".timer").text().slice(0,-3));
-    }
-    currentSec = timeLimit * 60;
-    minutes = timeLimit - 1;
-    seconds = timeLimit * 60;
-    isInit = true;
-    $(".add, .subtract, .start").addClass("disabled");
-    timerInterv = setInterval(startCycle, 1000);
-  };
-
-  const reset = () => {
-    isInit = false;
-    breakInit = false;
-    stop();
-    animateLoader(1);
-    $(".add, .subtract, .start").removeClass("disabled");
-    $(".state").text("Session");
-    $(".timer").text(`25:00`);
-  };
-
-  const stop = () => {
-    clearInterval(timerInterv);
-  };
-
-  const startBreak = () => {
-    reset();
-    init("break");
-    breakInit = true;
-    $(".state").text("Break");
-  };
-
-  const addOrSub = option => {
-    if (isInit || (timeLimit <= 1 && option == "sub")) return false;
-    timeLimit = option == "add" ? timeLimit + 1 : timeLimit - 1;
-    $(".timer").text(`${minCalc(timeLimit)}:00`)
-  };
-  const zeroPrefix = num => {
-    return num < 10 ? `0${num}` : num;
-  };
-  const animateLoader = (percentage) => {
-    percentage = percentage ? percentage : currentSec / seconds;
-    $(".loader").css("width", `${percentage*100}%`);
-  };
-
-  const countDown = () => {
-    currentSec -= 1;
-    if (currentSec % 60 == 0 && minutes !== 0) minutes -= 1;
-  }
-
-  const startCycle = () => {
-    countDown();
-    $(".timer")
-    .text(`${zeroPrefix(minutes)}:${zeroPrefix(currentSec % 60)}`);
-    animateLoader();
-    if (breakInit && currentSec <= 0) {
-      stop();
-      return false;
-    }
-    if (currentSec <= 0) {
-      stop();
-      startBreak();
-    }
-  };
-
-  // event handlers
-  $(".add").click(function () {
-    addOrSub("add");
-  });
-
-  $(".subtract").click(function () {
-    addOrSub("sub");
-  });
-
-  $(".start").click(function () {
-    init();
-  });
-
-  $(".reset").click(function () {
-    reset();
+  // Handlebars stuff :/
+  // take the template
+  const source = $("#timer-template").html();
+  // compilation is a big word for just get it ready
+  // to replace the placeholders with its matching data
+  const template = Handlebars.compile(source);
+  //
+  // we go through every item in the metadata array
+  timerMetas.forEach(function (meta, i) {
+    // this is the replacement phase
+    // where everything is put in its place
+    // and then an element is returned with
+    // the new compiled templates
+    // and we append them to the container
+    let html = template(meta);
+    $(".container").append(html);
+    //
+    // we pass here the time and class to the module
+    // then an API is returned
+  	timerFuns.push(timerMaker(+(meta.time), `.${meta.class}`));
+    //
+    // just event handlers for each module instance
+  	$(`.${meta.class} .add`).click(function () {
+  		timerFuns[i].addOrSub("add");
+  	});
+  	$(`.${meta.class} .subtract`).click(function () {
+  		timerFuns[i].addOrSub("sub");
+  	});
+  	$(`.${meta.class} .start`).click(function () {
+  		timerFuns[i].init();
+  	});
+  	$(`.${meta.class} .reset`).click(function () {
+  		timerFuns[i].reset();
+  	});
   });
 });
