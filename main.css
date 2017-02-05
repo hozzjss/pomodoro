@@ -61,3 +61,16 @@ background-size: 128px 128px;
 .start, .reset {
   min-width: 150px;
 }
+
+@media screen and (max-width: 720px) {
+  .counter {
+    max-height: 300px;
+    flex-basis:300px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .counter {
+    margin-bottom:4%;
+    max-height: 250px;
+  }
+}
