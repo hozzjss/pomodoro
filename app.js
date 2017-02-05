@@ -25,7 +25,7 @@ $(document).ready(function () {
   		isInit = false;
   		stop();
   		animateLoader(1);
-  		$(`${loaderClass} .timer`).text(`${timeLimit}:00`);
+  		$(`${loaderClass} .timer`).text(`${zeroPrefix(timeLimit)}:00`);
   		$(`${loaderClass} .add, ${loaderClass} .subtract, ${loaderClass} .start`).removeClass("disabled");
   	};
     //
