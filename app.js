@@ -54,7 +54,7 @@ $(document).ready(function() {
         // animateLoader(percentage)
         // takes a percentage and assigns it to the width of the loader
         const animateLoader = (percentage) => {
-            percentage = percentage ? percentage : currentSec / seconds;
+            percentage = percentage || currentSec / seconds;
             $(loaderClass).css("width", `${percentage*100}%`);
         };
         //
